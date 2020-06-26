@@ -42,3 +42,18 @@ class TestSequenceDb(unittest.TestCase):
 
         self.sequence_db.insert(sequence)
         self.assertEqual(self.sequence_db.find(sequence), [1])
+
+    def test_overlap(self):
+        self.sequence_db.insert('ACCCAGA')
+
+        self.assertEqual(self.sequence_db.overlap('GAGA', 1), True)
+        self.assertEqual(self.sequence_db.overlap('ACAC', 1), True)
+        self.assertEqual(self.sequence_db.overlap('TCTC', 1), False)
+
+        with self.assertRaises(ValueError) as invalid_id_exception:
+            self.sequence_db.overlap('TCTC', 2)
+
+        self.assertEqual(
+            invalid_id_exception.exception.args[0],
+            'No DNA sequence found with that id'
+        )

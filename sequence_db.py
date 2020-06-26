@@ -111,3 +111,33 @@ class SequenceDb:
             return []
         except sqlite3.Error as e:
             raise ConnectionError(e)
+
+    def overlap(self, sample: str, dna_sequence_id: int) -> bool:
+        if not self.is_input_valid(sample):
+            raise ValueError('Invalid sample')
+
+        try:
+            with self.conn:
+                cursor = self.conn.cursor()
+                cursor.execute(
+                    '''select dna_sequence from sequences
+                        where id = ?''', (dna_sequence_id,)
+                )
+            results = [row['dna_sequence'] for row in cursor]
+
+            cursor.close()
+
+            if len(results) > 0:
+                dna_sequence = results[0]
+
+                for idx in range(2, len(dna_sequence) - 1):
+                    sliced_sample = sample[:idx]
+
+                    if (dna_sequence.startswith(sliced_sample) or
+                            dna_sequence.endswith(sliced_sample)):
+                        return True
+                return False
+            else:
+                raise ValueError('No DNA sequence found with that id')
+        except sqlite3.Error as e:
+            raise ConnectionError(e)
