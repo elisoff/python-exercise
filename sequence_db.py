@@ -20,8 +20,8 @@ class SequenceDb:
     @staticmethod
     def is_input_valid(dna_sequence: str) -> bool:
         """
-            Check if a DNA Sequence input is valid:
-            It should only contain ‘A', ‘C’, ‘G’ and 'T’
+        Check if a DNA Sequence input is valid:
+        It should only contain ‘A', ‘C’, ‘G’ and 'T’
         """
 
         if not dna_sequence:
@@ -113,6 +113,10 @@ class SequenceDb:
             raise ConnectionError(e)
 
     def overlap(self, sample: str, dna_sequence_id: int) -> bool:
+        """
+        Checks if a given dna_sequence has overlap with the given sample.
+        """
+
         if not self.is_input_valid(sample):
             raise ValueError('Invalid sample')
 
