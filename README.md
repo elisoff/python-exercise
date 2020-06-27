@@ -7,4 +7,4 @@ The `main.py` file has a few use cases with the SequenceDb methods. You can run 
 ./main.py
 ```
 ## Unit tests
-The unit tests were done using thr `unittest` framework. They can be ran with the command `python -m unittest`.
+The unit tests were done using the `unittest` framework. They can be ran with the command `python -m unittest`.
